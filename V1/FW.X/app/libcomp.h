@@ -8,17 +8,24 @@
 #include "task.h"
 #include "queue.h"
 #include "timers.h"
-#include "tmr2.h"
-#include "tmr3.h"
 #include "system.h"
 #include "watchdog.h"
 #include "pin_manager.h"
 #include "Bootloader/Bootloader.h"
 #include "Common/Button.h"
+#include "Common/LibDef.h"
+#include "Common/Util.h"
 #include "Timer/SystemTick.h"
+#include "USB/USB_CDC_Debug.h"
 
-#define BOOTLOADER_TASK_PRIORITY    (tskIDLE_PRIORITY+1)
-#define APPLICATION_TASK_PRIORITY   (tskIDLE_PRIORITY+2)
-#define USB_CDC_TASK_PRIORITY       (tskIDLE_PRIORITY+3)
+/* ******************************************** SYSTEM MACROS - DO NOT MODIFY */
+#define BLD_TASK_PRIORITY       (tskIDLE_PRIORITY+1) // Do not modify
+#define SYSAPP_TASK_PRIORITY    (tskIDLE_PRIORITY+2) // Do not modify
+#define USERAPP_TASK_PRIORITY   (tskIDLE_PRIORITY+3) // Do not modify
+#define BLD_Trigger_GetState()  BUTTON_GetState(&ModeBtCxt, UBT_N_GetValue())
+#define BLD_Custom_Tasks()      Task_Manager()
+
+void Task_Manager(void);
+/* ************************************* APPLICATION MACROS - USER CAN MODIFY */
 
 #endif

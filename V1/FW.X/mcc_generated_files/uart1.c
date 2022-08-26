@@ -151,7 +151,7 @@ void UART1_SetTxInterruptHandler(void (* interruptHandler)(void))
 
 }
 
-void __attribute__ ((vector(_UART1_TX_VECTOR), interrupt(IPL2SOFT))) _UART1_TX ( void )
+void __attribute__ ((vector(_UART1_TX_VECTOR), interrupt(IPL1SOFT))) _UART1_TX ( void )
 {
     if(UART1_TxDefaultInterruptHandler)
     {
@@ -201,7 +201,7 @@ void UART1_SetRxInterruptHandler(void (* interruptHandler)(void))
     }
 }
 
-void __attribute__ ((vector(_UART1_RX_VECTOR), interrupt(IPL2SOFT))) _UART1_RX( void )
+void __attribute__ ((vector(_UART1_RX_VECTOR), interrupt(IPL1SOFT))) _UART1_RX( void )
 {
     if(UART1_RxDefaultInterruptHandler)
     {
@@ -239,7 +239,7 @@ void __attribute__ ((weak)) UART1_Receive_CallBack(void)
 
 }
 
-void __attribute__ ((vector(_UART1_ERR_VECTOR), interrupt(IPL2SOFT))) _UART1_ERR( void )
+void __attribute__ ((vector(_UART1_ERR_VECTOR), interrupt(IPL1SOFT))) _UART1_ERR( void )
 {
     if ((U1STAbits.OERR == 1))
     {

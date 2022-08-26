@@ -44,8 +44,8 @@ void i2c1_driver_close(void)
 /* Interrupt Control */
 void i2c1_enableIRQ(void)
 {
-    IEC2bits.I2C1MIE = 0;
-    IEC2bits.I2C1SIE = 0;
+    IEC2bits.I2C1MIE = 1;
+    IEC2bits.I2C1SIE = 1;
     IEC2bits.I2C1BCIE = 0;
 }
 
@@ -262,11 +262,11 @@ void i2c1_driver_setSlaveI2cISR(interruptHandler handler){
     i2c1_driver_Slavei2cISR = handler;
 }
 
-void __attribute__ ((vector(_I2C1_MASTER_VECTOR), interrupt(IPL1SOFT))) _I2C1_MASTER ( void )
+void __attribute__ ((vector(_I2C1_MASTER_VECTOR), interrupt(IPL2SOFT))) _I2C1_MASTER ( void )
 {
     (*i2c1_driver_Masteri2cISR)();
 }
-void __attribute__ ((vector(_I2C1_SLAVE_VECTOR), interrupt(IPL1SOFT))) _I2C1_SLAVE ( void )
+void __attribute__ ((vector(_I2C1_SLAVE_VECTOR), interrupt(IPL2SOFT))) _I2C1_SLAVE ( void )
 {
     (*i2c1_driver_Slavei2cISR)();
 }

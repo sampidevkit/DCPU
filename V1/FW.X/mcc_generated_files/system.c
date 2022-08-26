@@ -83,24 +83,24 @@
 #include "pin_manager.h"
 #include "clock.h"
 #include "system.h"
-#include "usb/usb.h"
-#include "spi2.h"
-#include "i2c1_driver.h"
-#include "memory/flash.h"
-#include "coretimer.h"
-#include "interrupt_manager.h"
-#include "exceptions.h"
+#include "spi2_driver.h"
+#include "drivers/spi_master.h"
 #include "uart1.h"
 #include "adc1.h"
+#include "memory/flash.h"
+#include "drivers/i2c_master.h"
+#include "interrupt_manager.h"
+#include "exceptions.h"
+#include "usb/usb.h"
+#include "i2c1_driver.h"
+#include "drivers/i2c_simple_master.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    CLOCK_Initialize();
     INTERRUPT_Initialize();
-    CORETIMER_Initialize();
+    CLOCK_Initialize();
     USBDeviceInit();
-    SPI2_Initialize();
     UART1_Initialize();
     ADC1_Initialize();
     INTERRUPT_GlobalEnable();

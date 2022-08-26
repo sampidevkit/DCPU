@@ -1,7 +1,10 @@
 #include "libcomp.h"
-#include "Application.h"
+#include "SystemApp.h"
+#include "UserApp.h"
 
-void vApplicationMallocFailedHook(void)
+// <editor-fold defaultstate="collapsed" desc="RTOS custom functions">
+
+void vApplicationMallocFailedHook(void) // <editor-fold defaultstate="collapsed" desc="vApplicationMallocFailedHook">
 {
     /* vApplicationMallocFailedHook() will only be called if
     configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h.  It is a hook
@@ -15,11 +18,9 @@ void vApplicationMallocFailedHook(void)
     provide information on how the remaining heap might be fragmented). */
     taskDISABLE_INTERRUPTS();
     while(1);
-}
+} // </editor-fold>
 
-/*-----------------------------------------------------------*/
-
-void vApplicationIdleHook(void)
+void vApplicationIdleHook(void) // <editor-fold defaultstate="collapsed" desc="vApplicationIdleHook">
 {
     /* vApplicationIdleHook() will only be called if configUSE_IDLE_HOOK is set
     to 1 in FreeRTOSConfig.h.  It will be called on each iteration of the idle
@@ -30,11 +31,9 @@ void vApplicationIdleHook(void)
     important that vApplicationIdleHook() is permitted to return to its calling
     function, because it is the responsibility of the idle task to clean up
     memory allocated by the kernel to any task that has since been deleted. */
-}
+} // </editor-fold>
 
-/*-----------------------------------------------------------*/
-
-void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName)
+void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName) // <editor-fold defaultstate="collapsed" desc="vApplicationStackOverflowHook">
 {
     (void) pcTaskName;
     (void) pxTask;
@@ -45,22 +44,18 @@ void vApplicationStackOverflowHook(TaskHandle_t pxTask, char *pcTaskName)
     stack is not checked. */
     taskDISABLE_INTERRUPTS();
     while(1);
-}
+} // </editor-fold>
 
-/*-----------------------------------------------------------*/
-
-void vApplicationTickHook(void)
+void vApplicationTickHook(void) // <editor-fold defaultstate="collapsed" desc="vApplicationTickHook">
 {
     /* This function will be called by each tick interrupt if
     configUSE_TICK_HOOK is set to 1 in FreeRTOSConfig.h.  User code can be
     added here, but the tick hook is called from an interrupt context, so
     code must not attempt to block, and only the interrupt safe FreeRTOS API
     functions can be used (those that end in FromISR()). */
-}
+} // </editor-fold>
 
-/*-----------------------------------------------------------*/
-
-void vAssertCalled(const char * pcFile, unsigned long ulLine)
+void vAssertCalled(const char * pcFile, unsigned long ulLine) // <editor-fold defaultstate="collapsed" desc="vAssertCalled">
 {
     volatile unsigned long ul=0;
 
@@ -77,44 +72,63 @@ void vAssertCalled(const char * pcFile, unsigned long ulLine)
         }
     }
     __asm volatile( "ei");
-}
+} // </editor-fold>
+// </editor-fold>
+
+void Task_Manager(void) // <editor-fold defaultstate="collapsed" desc="Task manager">
+{
+
+} // </editor-fold>
+
+static void SysApp_Tasks(void *pvParameters) // <editor-fold defaultstate="collapsed" desc="Application tasks">
+{
+    SystemApp_Init();
+
+    while(1)
+    {
+        SystemApp_Tasks();
+        vTaskDelay(1/portTICK_PERIOD_MS);
+    }
+} // </editor-fold>
+
+static void UserApp_Tasks(void *pvParameters) // <editor-fold defaultstate="collapsed" desc="Application tasks">
+{
+    UserApp_Init();
+
+    while(1)
+    {
+        UserApp_Tasks();
+        vTaskDelay(1/portTICK_PERIOD_MS);
+    }
+} // </editor-fold>
 
 int main(void) // <editor-fold defaultstate="collapsed" desc="main function">
 {
     SYSTEM_Initialize();
     portDISABLE_INTERRUPTS();
-    Application_Init();
+    
     xTaskCreate(Bootloader_Tasks, /* The function that implements the task. */
             "Bld", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
             configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
             NULL, /* The parameter passed to the task - just to check the functionality. */
-            BOOTLOADER_TASK_PRIORITY, /* The priority assigned to the task. */
+            BLD_TASK_PRIORITY, /* The priority assigned to the task. */
             NULL); /* The task handle is not required, so NULL is passed. */
-    xTaskCreate(Application_Tasks, /* The function that implements the task. */
-            "App", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
+    
+    xTaskCreate(SysApp_Tasks, /* The function that implements the task. */
+            "Sys", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
             configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
             NULL, /* The parameter passed to the task - just to check the functionality. */
-            APPLICATION_TASK_PRIORITY, /* The priority assigned to the task. */
+            SYSAPP_TASK_PRIORITY, /* The priority assigned to the task. */
             NULL); /* The task handle is not required, so NULL is passed. */
 
-#if defined(USB_CDC_DEBUG_H)
-    xTaskCreate(USB_CDC_Debug_Tasks, /* The function that implements the task. */
-            "CdcDb", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
+    xTaskCreate(UserApp_Tasks, /* The function that implements the task. */
+            "Usr", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
             configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
             NULL, /* The parameter passed to the task - just to check the functionality. */
-            USB_CDC_TASK_PRIORITY, /* The priority assigned to the task. */
+            USERAPP_TASK_PRIORITY, /* The priority assigned to the task. */
             NULL); /* The task handle is not required, so NULL is passed. */
-#elif defined(USB_CDC_UART_H)
-    xTaskCreate(USB_CDC_UART_Tasks, /* The function that implements the task. */
-            "CdcUart", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
-            configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
-            NULL, /* The parameter passed to the task - just to check the functionality. */
-            USB_CDC_TASK_PRIORITY, /* The priority assigned to the task. */
-            NULL); /* The task handle is not required, so NULL is passed. */
-#endif
 
     vTaskStartScheduler();
 
     return 1;
 } // </editor-fold>
-

@@ -11,7 +11,8 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="Application" projectFiles="true">
         <itemPath>app/libcomp.h</itemPath>
-        <itemPath>app/Application.h</itemPath>
+        <itemPath>app/SystemApp.h</itemPath>
+        <itemPath>app/UserApp.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Configuration" projectFiles="true">
         <itemPath>cfg/FreeRTOSConfig.h</itemPath>
@@ -22,42 +23,53 @@
         </logicalFolder>
         <logicalFolder name="f2" displayName="Common" projectFiles="true">
           <itemPath>../../Library/Common/Button.h</itemPath>
+          <itemPath>../../Library/Common/LibDef.h</itemPath>
+          <itemPath>../../Library/Common/Util.h</itemPath>
         </logicalFolder>
-        <logicalFolder name="f3" displayName="Timer" projectFiles="true">
+        <logicalFolder name="Timer" displayName="Timer" projectFiles="true">
           <itemPath>../../Library/Timer/SystemTick.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="USB" displayName="USB" projectFiles="true">
+          <itemPath>../../Library/USB/USB_CDC_Debug.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
+        <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
+          <itemPath>mcc_generated_files/drivers/i2c_simple_master.h</itemPath>
+          <itemPath>mcc_generated_files/drivers/i2c_types.h</itemPath>
+          <itemPath>mcc_generated_files/drivers/i2c_master.h</itemPath>
+          <itemPath>mcc_generated_files/drivers/spi_master.h</itemPath>
+        </logicalFolder>
         <logicalFolder name="memory" displayName="memory" projectFiles="true">
-          <itemPath>mcc_generated_files/memory/flash_demo.h</itemPath>
           <itemPath>mcc_generated_files/memory/flash.h</itemPath>
+          <itemPath>mcc_generated_files/memory/flash_demo.h</itemPath>
         </logicalFolder>
         <logicalFolder name="usb" displayName="usb" projectFiles="true">
-          <itemPath>mcc_generated_files/usb/usb_hal.h</itemPath>
-          <itemPath>mcc_generated_files/usb/usb_common.h</itemPath>
-          <itemPath>mcc_generated_files/usb/usb_device_generic.h</itemPath>
-          <itemPath>mcc_generated_files/usb/usb_device_local.h</itemPath>
-          <itemPath>mcc_generated_files/usb/usb.h</itemPath>
           <itemPath>mcc_generated_files/usb/usb_ch9.h</itemPath>
-          <itemPath>mcc_generated_files/usb/usb_device.h</itemPath>
+          <itemPath>mcc_generated_files/usb/usb_device_local.h</itemPath>
           <itemPath>mcc_generated_files/usb/usb_hal_pic32mm.h</itemPath>
+          <itemPath>mcc_generated_files/usb/usb_common.h</itemPath>
+          <itemPath>mcc_generated_files/usb/usb.h</itemPath>
           <itemPath>mcc_generated_files/usb/usb_device_config.h</itemPath>
+          <itemPath>mcc_generated_files/usb/usb_device.h</itemPath>
+          <itemPath>mcc_generated_files/usb/usb_hal.h</itemPath>
+          <itemPath>mcc_generated_files/usb/usb_device_cdc.h</itemPath>
         </logicalFolder>
-        <itemPath>mcc_generated_files/mcc.h</itemPath>
-        <itemPath>mcc_generated_files/exceptions.h</itemPath>
-        <itemPath>mcc_generated_files/pin_manager.h</itemPath>
-        <itemPath>mcc_generated_files/spi2.h</itemPath>
         <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
-        <itemPath>mcc_generated_files/system.h</itemPath>
-        <itemPath>mcc_generated_files/clock.h</itemPath>
-        <itemPath>mcc_generated_files/adc_module_features.h</itemPath>
-        <itemPath>mcc_generated_files/adc1.h</itemPath>
-        <itemPath>mcc_generated_files/coretimer.h</itemPath>
-        <itemPath>mcc_generated_files/i2c1_driver.h</itemPath>
-        <itemPath>mcc_generated_files/uart1.h</itemPath>
+        <itemPath>mcc_generated_files/mcc.h</itemPath>
         <itemPath>mcc_generated_files/watchdog.h</itemPath>
+        <itemPath>mcc_generated_files/exceptions.h</itemPath>
+        <itemPath>mcc_generated_files/adc1.h</itemPath>
+        <itemPath>mcc_generated_files/pin_manager.h</itemPath>
+        <itemPath>mcc_generated_files/system.h</itemPath>
+        <itemPath>mcc_generated_files/i2c1_driver.h</itemPath>
+        <itemPath>mcc_generated_files/adc_module_features.h</itemPath>
+        <itemPath>mcc_generated_files/uart1.h</itemPath>
+        <itemPath>mcc_generated_files/clock.h</itemPath>
+        <itemPath>mcc_generated_files/spi2_types.h</itemPath>
+        <itemPath>mcc_generated_files/spi2_driver.h</itemPath>
       </logicalFolder>
       <logicalFolder name="RTOS" displayName="RTOS" projectFiles="true">
         <logicalFolder name="Core" displayName="Core" projectFiles="true">
@@ -95,7 +107,8 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="Application" projectFiles="true">
         <itemPath>app/libcomp.c</itemPath>
-        <itemPath>app/Application.c</itemPath>
+        <itemPath>app/SystemApp.c</itemPath>
+        <itemPath>app/UserApp.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Configuration" projectFiles="true">
       </logicalFolder>
@@ -105,38 +118,52 @@
         </logicalFolder>
         <logicalFolder name="f2" displayName="Common" projectFiles="true">
           <itemPath>../../Library/Common/Button.c</itemPath>
+          <itemPath>../../Library/Common/Util.c</itemPath>
         </logicalFolder>
-        <logicalFolder name="f3" displayName="Timer" projectFiles="true">
+        <logicalFolder name="Timer" displayName="Timer" projectFiles="true">
           <itemPath>../../Library/Timer/SystemTick.c</itemPath>
+        </logicalFolder>
+        <logicalFolder name="USB" displayName="USB" projectFiles="true">
+          <itemPath>../../Library/USB/USB_CDC_Debug.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
+        <logicalFolder name="docs" displayName="docs" projectFiles="true">
+          <itemPath>mcc_generated_files/docs/i2c_simple.dox</itemPath>
+          <itemPath>mcc_generated_files/docs/spi.dox</itemPath>
+          <itemPath>mcc_generated_files/docs/spi_basic.dox</itemPath>
+        </logicalFolder>
+        <logicalFolder name="drivers" displayName="drivers" projectFiles="true">
+          <itemPath>mcc_generated_files/drivers/i2c_simple_master.c</itemPath>
+          <itemPath>mcc_generated_files/drivers/i2c_types.c</itemPath>
+          <itemPath>mcc_generated_files/drivers/i2c_master.c</itemPath>
+          <itemPath>mcc_generated_files/drivers/spi_master.c</itemPath>
+        </logicalFolder>
         <logicalFolder name="memory" displayName="memory" projectFiles="true">
-          <itemPath>mcc_generated_files/memory/flash_demo.c</itemPath>
           <itemPath>mcc_generated_files/memory/flash.c</itemPath>
+          <itemPath>mcc_generated_files/memory/flash_demo.c</itemPath>
         </logicalFolder>
         <logicalFolder name="usb" displayName="usb" projectFiles="true">
           <logicalFolder name="utilities" displayName="utilities" projectFiles="true">
-            <itemPath>mcc_generated_files/usb/utilities/mchpwinusb_template.inf</itemPath>
+            <itemPath>mcc_generated_files/usb/utilities/mchpcdc_template.inf</itemPath>
           </logicalFolder>
           <itemPath>mcc_generated_files/usb/usb_descriptors.c</itemPath>
-          <itemPath>mcc_generated_files/usb/usb_device_generic.c</itemPath>
-          <itemPath>mcc_generated_files/usb/usb_device.c</itemPath>
           <itemPath>mcc_generated_files/usb/usb_device_events.c</itemPath>
+          <itemPath>mcc_generated_files/usb/usb_device.c</itemPath>
+          <itemPath>mcc_generated_files/usb/usb_device_cdc.c</itemPath>
         </logicalFolder>
-        <itemPath>mcc_generated_files/exceptions.c</itemPath>
-        <itemPath>mcc_generated_files/interrupt_manager.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
-        <itemPath>mcc_generated_files/spi2.c</itemPath>
-        <itemPath>mcc_generated_files/pin_manager.c</itemPath>
-        <itemPath>mcc_generated_files/system.c</itemPath>
+        <itemPath>mcc_generated_files/interrupt_manager.c</itemPath>
+        <itemPath>mcc_generated_files/exceptions.c</itemPath>
         <itemPath>mcc_generated_files/adc1.c</itemPath>
-        <itemPath>mcc_generated_files/clock.c</itemPath>
-        <itemPath>mcc_generated_files/coretimer.c</itemPath>
-        <itemPath>mcc_generated_files/uart1.c</itemPath>
+        <itemPath>mcc_generated_files/system.c</itemPath>
         <itemPath>mcc_generated_files/i2c1_driver.c</itemPath>
+        <itemPath>mcc_generated_files/pin_manager.c</itemPath>
+        <itemPath>mcc_generated_files/clock.c</itemPath>
+        <itemPath>mcc_generated_files/uart1.c</itemPath>
+        <itemPath>mcc_generated_files/spi2_driver.c</itemPath>
       </logicalFolder>
       <logicalFolder name="RTOS" displayName="RTOS" projectFiles="true">
         <logicalFolder name="Core" displayName="Core" projectFiles="true">
@@ -171,8 +198,8 @@
     <Elem>cfg</Elem>
     <Elem>../../RTOS</Elem>
     <Elem>mcc_generated_files</Elem>
-    <Elem>../../Docs</Elem>
     <Elem>../../Loadables</Elem>
+    <Elem>../../Docs</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
