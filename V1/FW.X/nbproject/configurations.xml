@@ -179,6 +179,13 @@
         <logicalFolder name="PIC32MM" displayName="PIC32MM" projectFiles="true">
           <itemPath>../../Library/RTOS/PIC32MM/port.c</itemPath>
           <itemPath>../../Library/RTOS/PIC32MM/port_asm.S</itemPath>
+          <itemPath>../../Library/RTOS/PIC32MM/i2c1_bus_isr.S</itemPath>
+          <itemPath>../../Library/RTOS/PIC32MM/i2c1_master_isr.S</itemPath>
+          <itemPath>../../Library/RTOS/PIC32MM/i2c1_slave_isr.S</itemPath>
+          <itemPath>../../Library/RTOS/PIC32MM/uart1_err_isr.S</itemPath>
+          <itemPath>../../Library/RTOS/PIC32MM/uart1_rx_isr.S</itemPath>
+          <itemPath>../../Library/RTOS/PIC32MM/uart1_tx_isr.S</itemPath>
+          <itemPath>../../Library/RTOS/PIC32MM/usb_isr.S</itemPath>
         </logicalFolder>
       </logicalFolder>
       <itemPath>main.c</itemPath>

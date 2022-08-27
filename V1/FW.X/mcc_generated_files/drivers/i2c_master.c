@@ -397,8 +397,8 @@ static i2c_fsm_states_t do_I2C_TX_EMPTY(void)
     }
 }
 
-typedef i2c_fsm_states_t (stateHandlerFunction)(void);
-const stateHandlerFunction *fsmStateTable[] = {
+typedef i2c_fsm_states_t (*stateHandlerFunction)(void);
+const stateHandlerFunction fsmStateTable[] = {
     do_I2C_IDLE,                //I2C_IDLE
     do_I2C_SEND_ADR_READ,       //I2C_SEND_ADR_READ
     do_I2C_SEND_ADR_WRITE,      //I2C_SEND_ADR_WRITE

@@ -2,6 +2,8 @@
 #include "SystemApp.h"
 #include "UserApp.h"
 
+static volatile uint32_t SysApp_Tick, UsrApp_Tick;
+
 // <editor-fold defaultstate="collapsed" desc="RTOS custom functions">
 
 void vApplicationMallocFailedHook(void) // <editor-fold defaultstate="collapsed" desc="vApplicationMallocFailedHook">
@@ -77,7 +79,21 @@ void vAssertCalled(const char * pcFile, unsigned long ulLine) // <editor-fold de
 
 void Task_Manager(void) // <editor-fold defaultstate="collapsed" desc="Task manager">
 {
+    uint32_t thisTick=Tick_Get();
 
+    if(Tick_Dif_Ms(thisTick, SysApp_Tick)>5000) // System app time out
+        goto LB_REBOOT;
+
+    if(Tick_Dif_Ms(thisTick, UsrApp_Tick)>5000) // User's app time out
+        goto LB_REBOOT;
+
+    return;
+LB_REBOOT:
+    SYSKEY=0x0; //write invalid key to force lock
+    SYSKEY=0xAA996655; //write Key1 to SYSKEY
+    SYSKEY=0x556699AA; //write Key2 to SYSKEY
+    RSWRSTSET=1;
+    unsigned int dummy=RSWRST;
 } // </editor-fold>
 
 static void SysApp_Tasks(void *pvParameters) // <editor-fold defaultstate="collapsed" desc="Application tasks">
@@ -86,17 +102,19 @@ static void SysApp_Tasks(void *pvParameters) // <editor-fold defaultstate="colla
 
     while(1)
     {
+        SysApp_Tick=Tick_Get();
         SystemApp_Tasks();
         vTaskDelay(1/portTICK_PERIOD_MS);
     }
 } // </editor-fold>
 
-static void UserApp_Tasks(void *pvParameters) // <editor-fold defaultstate="collapsed" desc="Application tasks">
+static void UsrApp_Tasks(void *pvParameters) // <editor-fold defaultstate="collapsed" desc="Application tasks">
 {
     UserApp_Init();
 
     while(1)
     {
+        UsrApp_Tick=Tick_Get();
         UserApp_Tasks();
         vTaskDelay(1/portTICK_PERIOD_MS);
     }
@@ -106,14 +124,14 @@ int main(void) // <editor-fold defaultstate="collapsed" desc="main function">
 {
     SYSTEM_Initialize();
     portDISABLE_INTERRUPTS();
-    
+
     xTaskCreate(Bootloader_Tasks, /* The function that implements the task. */
             "Bld", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
             configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
             NULL, /* The parameter passed to the task - just to check the functionality. */
             BLD_TASK_PRIORITY, /* The priority assigned to the task. */
             NULL); /* The task handle is not required, so NULL is passed. */
-    
+
     xTaskCreate(SysApp_Tasks, /* The function that implements the task. */
             "Sys", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
             configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
@@ -121,11 +139,11 @@ int main(void) // <editor-fold defaultstate="collapsed" desc="main function">
             SYSAPP_TASK_PRIORITY, /* The priority assigned to the task. */
             NULL); /* The task handle is not required, so NULL is passed. */
 
-    xTaskCreate(UserApp_Tasks, /* The function that implements the task. */
+    xTaskCreate(UsrApp_Tasks, /* The function that implements the task. */
             "Usr", /* The text name assigned to the task - for debug only as it is not used by the kernel. */
             configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
             NULL, /* The parameter passed to the task - just to check the functionality. */
-            USERAPP_TASK_PRIORITY, /* The priority assigned to the task. */
+            USRAPP_TASK_PRIORITY, /* The priority assigned to the task. */
             NULL); /* The task handle is not required, so NULL is passed. */
 
     vTaskStartScheduler();

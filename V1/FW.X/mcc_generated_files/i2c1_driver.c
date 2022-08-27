@@ -263,14 +263,26 @@ void i2c1_driver_setSlaveI2cISR(interruptHandler handler){
 }
 
 void __attribute__ ((vector(_I2C1_MASTER_VECTOR), interrupt(IPL2SOFT))) _I2C1_MASTER ( void )
+#ifdef USE_RTOS
+;
+void _I2C1_MASTER_Handler(void)
+#endif
 {
     (*i2c1_driver_Masteri2cISR)();
 }
 void __attribute__ ((vector(_I2C1_SLAVE_VECTOR), interrupt(IPL2SOFT))) _I2C1_SLAVE ( void )
+#ifdef USE_RTOS
+;
+void _I2C1_SLAVE_Handler(void)
+#endif
 {
     (*i2c1_driver_Slavei2cISR)();
 }
 void __attribute__ ((vector(_I2C1_BUS_VECTOR), interrupt(IPL1SOFT))) _I2C1_BUS ( void )
+#ifdef USE_RTOS
+;
+void _I2C1_BUS_Handler(void)
+#endif
 {
     (*i2c1_driver_busCollisionISR)();
 }
