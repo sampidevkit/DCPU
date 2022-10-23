@@ -33,6 +33,7 @@
 i2c_error_t i2c_open(i2c_address_t address);
 void        i2c_setAddress(i2c_address_t address);
 i2c_error_t i2c_close(void);
+void        i2c_force_close(void);
 i2c_error_t i2c_masterOperation(bool read);
 i2c_error_t i2c_masterWrite(void); // to be depreciated
 i2c_error_t i2c_masterRead(void);  // to be depreciated

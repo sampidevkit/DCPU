@@ -16,6 +16,7 @@
       </logicalFolder>
       <logicalFolder name="f2" displayName="Configuration" projectFiles="true">
         <itemPath>cfg/FreeRTOSConfig.h</itemPath>
+        <itemPath>cfg/EE24AA16_Cfg.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Library" projectFiles="true">
         <logicalFolder name="f1" displayName="Bootloader" projectFiles="true">

@@ -175,6 +175,16 @@ i2c_error_t i2c_close(void)
     return ret;
 }
 
+void i2c_force_close(void)
+{
+    i2c_status.inUse = 0;
+    // close it down
+    i2c_status.address = 0xff; // 8-bit address is invalid so this is FREE
+    i2c1_clearIRQ();
+    i2c1_disableIRQ();
+    i2c1_driver_close();
+}
+
 void i2c_setTimeOut(uint8_t to)
 {
     i2c1_disableIRQ();

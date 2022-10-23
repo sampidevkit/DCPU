@@ -8,6 +8,7 @@
 #include "FreeRTOS.h"
 #include "adc1.h"
 #include "uart1.h"
+#include "drivers/i2c_master.h"
 #include "drivers/i2c_simple_master.h"
 #include "memory/flash.h"
 #include "usb/usb.h"
